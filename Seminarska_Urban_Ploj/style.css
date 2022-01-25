@@ -1,0 +1,22 @@
+* {
+  background-color: #dcd6f7;
+}
+
+tabelni_izpis,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 5px;
+}
+.naslovi {
+  text-align: center;
+}
+.tekst {
+  text-align: center;
+}
+/* osnovni  styling za seminarsko nalogo*/

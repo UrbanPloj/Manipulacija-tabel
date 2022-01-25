@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ljudje>
+    <oseba>
+    <ime>Urban</ime>
+    <priimek>Ploj</priimek>
+    <starost>21</starost>
+    <stOtrok></stOtrok>
+    <obcina>Radenci</obcina>
+    <spol>M</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Jure</ime>
+    <priimek>Kovač</priimek>
+    <starost>54.6</starost>
+    <stOtrok>2</stOtrok>
+    <obcina>Maribor</obcina>
+    <spol>M</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Maja</ime>
+    <priimek>Horvat</priimek>
+    <starost>35.2</starost>
+    <stOtrok>1</stOtrok>
+    <obcina>Koper</obcina>
+    <spol>Z</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Damjan</ime>
+    <priimek>Znidarič</priimek>
+    <starost>36.4</starost>
+    <stOtrok>3</stOtrok>
+    <obcina>Maribor</obcina>
+    <spol>M</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Tjaša</ime>
+    <priimek>Kranjc</priimek>
+    <starost>52.5</starost>
+    <stOtrok>2</stOtrok>
+    <obcina>Kranj</obcina>
+    <spol>Z</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Tone</ime>
+    <priimek>Filipič</priimek>
+    <starost>27.8</starost>
+    <stOtrok>1</stOtrok>
+    <obcina>Novo mesto</obcina>
+    <spol>Z</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Metka</ime>
+    <priimek>Erjavec</priimek>
+    <starost>53.4</starost>
+    <stOtrok>2</stOtrok>
+    <obcina>Novo mesto</obcina>
+    <spol>Z</spol>
+    </oseba>
+
+    <oseba>
+    <ime>Tatjana</ime>
+    <priimek>Vidovec</priimek>
+    <starost>47.5</starost>
+    <stOtrok>2</stOtrok>
+    <obcina>Ljubljana</obcina>
+    <spol>Z</spol>
+    </oseba>
+
+</ljudje>

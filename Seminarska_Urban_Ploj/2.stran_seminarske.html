@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css" type="text/css">
+
+</head>
+
+<body>
+  <h2 class="naslovi">Seminarska naloga - 2.stran</h2>
+
+  <center><a href="Seminar_1.stran.html">Vrni se na 1.stran</a></center>
+  <h3 class="naslovi">Prikaz otrok po občinah</h3>
+  <p class="tekst">Izbira spola starša</p>
+  
+  <center><select id="spol" id="kriterij" style="text-align: center;">
+    <option value="Z">Ženski</option>
+    <option value="M">Moški</option>
+    <option selected value="Vsi">Vsi</option>
+  </select></center>
+  <br>
+  <br>
+  <br>
+  <br>
+  <center><button type="button" onclick="IzpisPoKriteriju()">
+    Izpiši po kriteriju
+  </button></center>
+  <br>
+  <br>
+  <center><table id=tabelni_izpis></table></center>
+  <script>
+
+
+    var i = 0;
+    function IzpisPoKriteriju() {
+      var tabelni_izpis = " <tr><th> Občina </th><th> Št. Otrok </th>";
+      var request = new XMLHttpRequest();
+
+      var obcine = new Array;
+      var otroci = new Array;
+      var SkupajOtrok = 0;
+
+
+      $.ajax({
+        type: "GET", url: "podatki.xml", dataType: "xml",
+        success: function (xml) {
+          var tabela = new Array;
+          var i = 0;
+          $(xml).find('oseba').each(function (xml) {
+            tabela[i] = new Array;
+            tabela[i][0] = $(this).find('ime').text();
+            tabela[i][1] = $(this).find('priimek').text();
+            tabela[i][2] = +$(this).find('starost').text();
+            tabela[i][3] = +$(this).find('stOtrok').text();
+            tabela[i][4] = $(this).find('obcina').text();
+            tabela[i][5] = $(this).find('spol').text();
+            i++;
+          });
+          
+
+          for (var i = 0; i < tabela.length; i++) {  // poišči različne občine 
+
+            if (obcine.indexOf(tabela[i][4]) == -1) {
+              obcine.push(tabela[i][4]);
+              otroci.push(0);
+            }
+          }
+          
+
+          var IzbraniSpol = document.getElementById("spol").value;
+
+          for (var i = 0; i < tabela.length; i++) {  // poišči indekse občin
+
+            for (var j = 0; j < obcine.length; j++) {
+              if (tabela[i][4] == obcine[j] && (IzbraniSpol == tabela[i][5] || IzbraniSpol == "Vsi")) {
+                
+                otroci[j] += parseInt(tabela[i][3]);
+                console.log(obcine[j], tabela[i][3]);
+              }
+            }
+          }
+          console.log(obcine);
+          console.log(otroci);
+
+          for (var j = 0; j < obcine.length; j++) {
+
+            tabelni_izpis += "<tr><td> " + obcine[j] + "</td><td> <center>" + otroci[j] + "</center>";
+
+            SkupajOtrok += otroci[j];
+
+          }
+
+          tabelni_izpis += "<tr><th> Skupaj </td><th> <center>" + SkupajOtrok + "</center>";
+
+          document.getElementById("tabelni_izpis").innerHTML = tabelni_izpis; // izpišemo iskani niz podatkov ali obvestilo
+
+        }
+      });
+
+    }
+  </script>
+</body>
+
+</html>

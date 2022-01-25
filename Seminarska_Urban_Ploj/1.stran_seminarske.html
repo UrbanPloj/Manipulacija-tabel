@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+    
+    
+</head>
+
+<body>
+    <h2 class="naslovi">Seminarska naloga</h2>
+    <center><a href="2.stran_seminarske.html">Stran 2.</a></center>
+    <h3 class="naslovi">Upravljanje s tabelo naprav</h3>
+    <center><table>
+        <tr> <td id="tabela">
+    <h4 class="naslovi">Vnos v tabelo</h4>
+    <p><input id="naprava" type="text" placeholder="Vpišite ime naprave"></p>
+    <p><input id="cena" type="number" placeholder="Vpišite ceno naprave" step=0.01></p>
+    <p><input id="kolicina" type="number" placeholder="Vpišite število naprav"></p>
+
+    <button type="button" onclick="Vnesi()" class="gumb">Vnesi podatke v tabelo</button>
+</td><td>
+    <h4 class="naslovi">Iskanje in brisanje</h4>
+    <br><br>
+    <p>Vpišite ime iskane naprave: <input type="text" id="iskano">
+        <button type="button" onclick="Iskanje()" class="gumb">Poišči</button>
+    </p>
+
+    <p>Vpišite ime naprave za brisanje: <input type="text" id="brisanje">
+        <button type="button" onclick="Brisanje()" class="gumb">Briši iz tabele</button>
+    </p>
+</td><td>
+    <h4 class="naslovi">Filtri za (Izpiši po kriteriju)</h4>
+    <table id="tabela2">
+        <tr>
+            <td>
+                <p> Omejitev cene</p>
+                <form name="OmejiCene" class="gumb">
+                    <input type="radio" name="meja" value="50"> do 50€<br>
+                    <input type="radio" name="meja" value="300"> do 300€ <br>
+                    <input type="radio" name="meja" checked value="999999"> Vse <br>
+                </form>
+            <td>
+                <p>Omejitev kolicine</p>
+                <center><select id="OmejiKolicine" size="4" class="gumb">
+                    <option value="5">do 5</option>
+                    <option value="10">do 10</option>
+                    <option value="20">do 20</option>
+                    <option value="999999" selected>Vse</option>
+                </select></center>
+            </td>
+    </table>
+</td>
+</table></center>
+    <h4 class="naslovi">Izpis tabele</h4>
+    <center></cnter><p> <button type="button" onclick="IzpisVseh()">Izpiši celo tabelo</button>
+        <button type="button" onclick="IzpisPoKriteriju()">Izpiši po kriteriju</button>
+    </p></center>
+
+    <p id="izpis"></p>
+    <table id="tabelni_izpis"></table>
+    <script>
+
+        var izdelki = [
+            { naprava: "telefon", kolicina: "7", cena: "599.99" },
+            { naprava: "hladilnik", kolicina: "5", cena: "360.78" },
+            { naprava: "prenosnik", kolicina: "12", cena: "780.90" },
+            { naprava: "slušalke", kolicina: "16", cena: "32.32" },
+            { naprava: "mikrofon", kolicina: "8", cena: "33.33" },
+            { naprava: "telefon", kolicina: "9", cena: "290.64" },
+            { naprava: "zmrzovalnik", kolicina: "22", cena: "145.76" },
+            { naprava: "svetilka", kolicina: "5", cena: "19.99" },
+            { naprava: "polnilec", kolicina: "7", cena: "18.78" },
+            { naprava: "slušalke", kolicina: "8", cena: "29.76" }
+        ];
+        var glava = "<tr><th> indeks </td><th> naprava </td><th> kolicina </td><th> cena"; // ustvari glavo 
+        //var tekst = "";
+        function IzpisVseh() {    
+            tekst = ""; // počistimo 
+            tekst += glava; // vstavimo glavo
+            var SkupnaCena = 0;
+            for (var i = 0; i < izdelki.length; i++) { 
+                tekst += "<tr><td> " + i + " </td><td> " + izdelki[i].naprava + "</td><td> " + izdelki[i].kolicina + "</td><td> " + izdelki[i].cena;
+                SkupnaCena += parseFloat(izdelki[i].cena);
+            }
+            tekst += "<tr><td> Skupaj </td><td> </td><td> 1x vsaka </td><td>" + SkupnaCena.toFixed(1);
+            document.getElementById("tabelni_izpis").innerHTML = tekst; // izpis v tabele
+        }
+
+        function Iskanje() {
+            var iskanaNaprava = "", obstaja = false, tekst = "";
+            var SkupnaCena = 0;
+            iskanaNaprava = document.getElementById("iskano").value; // pridobimo ime iskane naprave
+            tekst += glava;
+            for (var i = 0; i < izdelki.length; i++) {
+                if (izdelki[i].naprava.toLowerCase() == iskanaNaprava.toLowerCase()) { // preverimo če se ujema iskanje z vpisanim imenom
+
+                    tekst += "<tr><td> " + i + " </td><td> " + izdelki[i].naprava + "</td><td> " + izdelki[i].kolicina + "</td><td> " + izdelki[i].cena;
+                    obstaja = true;
+                    SkupnaCena += parseFloat(izdelki[i].cena);
+                }
+            }
+            if (obstaja == false) // če iskanje ne obstaja vrnemo odgovor 
+            {
+                tekst = "Iskani izdelek ne obstaja";
+                document.getElementById("iskano").value = "";
+                document.getElementById("iskano").focus();
+            }
+            else {
+                tekst += "<tr><td> Skupaj </td><td> </td><td> 1x vsaka </td><td>" + SkupnaCena.toFixed(1);
+            }
+            document.getElementById("tabelni_izpis").innerHTML = tekst; // obvestilo ali niz iskanja
+
+        }
+
+        function Brisanje() {
+            var ime_brisanje = document.getElementById("brisanje").value; // vpišemo ime katerega zbrišemo
+
+            var izbrisano = "", Vsebina = "";
+            for (var i = 0; i < izdelki.length; i++) //iščemo indkes oziroma njegovo ime
+            {
+                if (izdelki[i].naprava.toLowerCase() == ime_brisanje.toLowerCase()) // poiščenmo če obstaja ime v tabeli
+                {
+                    Vsebina = izdelki[i].naprava.toLowerCase(); // spravimo najdeno ime za obvestilo
+                    izbrisano = izdelki.splice(i, 1); // izbrišemo iz tabele
+                }
+            }
+            if (izbrisano != "") // obvestimo ali je bilo izbrisano ali ne najdeno 
+                alert("Izbrisano: " + Vsebina);
+            else
+                alert("Nič ni izbrisano, vnesite ime ki obstaja");
+            IzpisVseh(); // Izpišemo tabelo
+
+        }
+
+
+        function Vnesi() {
+            var zapis = "";
+            var tekst = "<tr><th> NOV VNOS </td><th> naprava </td><th> kolicina </td><th> cena";
+            var naprava = document.getElementById("naprava").value; // prejmemo podatke
+            var kolicina = document.getElementById("kolicina").value;
+            var cena = document.getElementById("cena").value;
+
+
+
+            try {
+                if (naprava == "") throw "Naziv naprave je prazen!";
+                if (!isNaN(naprava) == true) throw "Popravi Ime, ne more biti številka!"; // obvestimo da ne sme vsebovati števila
+                if (cena == "") throw "Cena je prazna!";
+                if (kolicina == "") throw "Kolicina je prazna!";
+                zapis = { naprava: naprava, kolicina: kolicina, cena: cena }; // napolnimo zapis 
+                izdelki.push(zapis); // dodamo zapis v tabelo
+                tekst += "<tr><th> " + (izdelki.length - 1) + "</td><td>" + naprava + " </td><td>" + kolicina + "</td><td>" + cena;
+                document.getElementById("tabelni_izpis").innerHTML = tekst;
+                document.getElementById("naprava").focus();
+            }
+            catch (err) {
+                document.getElementById("tabelni_izpis").innerHTML = "Napacen vnos: " + err;
+                return 0;
+            }
+        }
+
+
+        function IzpisPoKriteriju() {
+            var tekst = "";
+            var izbranaKolicina = document.getElementById("OmejiKolicine").value;
+            var izbranaCena = 0;
+            var SkupnaCena = 0;
+            switch (true) {
+                case (OmejiCene.meja[0].checked == true): { izbranaCena = OmejiCene.meja[0].value; } 
+                    break;
+                case (OmejiCene.meja[1].checked == true): { izbranaCena = OmejiCene.meja[1].value; }
+                    break;
+                case (OmejiCene.meja[2].checked == true): { izbranaCena = OmejiCene.meja[2].value; }
+                    break;
+            }
+            
+
+            tekst += glava; // vstavimo glavo tabele 
+            for (var i = 0; i < izdelki.length; i++) { // iščemo izdelke
+                if (parseInt(izdelki[i].kolicina) <= parseInt(izbranaKolicina) && parseFloat(izdelki[i].cena) <= izbranaCena) { // preverimo če se ujema iskanje
+
+                    tekst += "<tr><td> " + i + " </td><td> " + izdelki[i].naprava + "</td><td> " + izdelki[i].kolicina + "</td><td> " + izdelki[i].cena;
+
+                    SkupnaCena += parseFloat(izdelki[i].cena);
+                    
+                }
+            }
+            tekst += "<tr><td> Skupaj </td><td>  </td><td> 1x vsaka </td><td>" + SkupnaCena.toFixed(1);
+            document.getElementById("tabelni_izpis").innerHTML = tekst; // izpišemo iskani niz podatkov ali obvestilo
+
+        }
+
+
+
+    </script>
+
+
+</body>
+
+</html>
